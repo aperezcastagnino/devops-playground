@@ -1,3 +1,4 @@
+# Define el rol IAM para EC2 con la política de confianza necesaria
 resource "aws_iam_role" "ec2_iam_role" {
   name = "${local.prefix}_ec2_role"
 
@@ -6,14 +7,11 @@ resource "aws_iam_role" "ec2_iam_role" {
     "Version": "2012-10-17",
     "Statement": [
       {
-        "Action": [
-          "sts:AssumeRole"
-        ],
-        "Principal": {
-            "Service": "ec2.amazonaws.com"
-        },
         "Effect": "Allow",
-        "Sid": ""
+        "Action": "sts:AssumeRole",
+        "Principal": {
+          "Service": "ec2.amazonaws.com"
+        }
       }
     ]
   }
@@ -25,7 +23,6 @@ resource "aws_iam_instance_profile" "ec2_profile" {
   role = aws_iam_role.ec2_iam_role.name
 }
 
-# Add a cloudwatch policy
 resource "aws_iam_role_policy" "ec2_cloudwatch_policy" {
   name = "${local.prefix}_cloudwatch_access_policy"
   role = aws_iam_role.ec2_iam_role.name
@@ -37,14 +34,14 @@ resource "aws_iam_role_policy" "ec2_cloudwatch_policy" {
       {
         "Effect": "Allow",
         "Action": [
-            "cloudwatch:PutMetricData",
-            "ec2:DescribeVolumes",
-            "ec2:DescribeTags",
-            "logs:PutLogEvents",
-            "logs:DescribeLogStreams",
-            "logs:DescribeLogGroups",
-            "logs:CreateLogStream",
-            "logs:CreateLogGroup"
+          "cloudwatch:PutMetricData",
+          "ec2:DescribeVolumes",
+          "ec2:DescribeTags",
+          "logs:PutLogEvents",
+          "logs:DescribeLogStreams",
+          "logs:DescribeLogGroups",
+          "logs:CreateLogStream",
+          "logs:CreateLogGroup"
         ],
         "Resource": "*"
       }
@@ -53,7 +50,6 @@ resource "aws_iam_role_policy" "ec2_cloudwatch_policy" {
   EOF
 }
 
-# Add ECR Policy
 resource "aws_iam_role_policy" "ec2_ecr_policy" {
   name = "${local.prefix}_ecr_access_policy"
   role = aws_iam_role.ec2_iam_role.name
@@ -63,15 +59,19 @@ resource "aws_iam_role_policy" "ec2_ecr_policy" {
     "Version": "2012-10-17",
     "Statement": [
       {
+        "Effect": "Allow",
         "Action": [
           "ecr:GetAuthorizationToken",
           "ecr:ListImages",
           "ecr:BatchGetImage",
           "ecr:BatchCheckLayerAvailability",
-          "ecr:CompleteLayerUpload",
           "ecr:GetDownloadUrlForLayer"
         ],
+        "Resource": "*"
+      },
+      {
         "Effect": "Allow",
+        "Action": "ecr:DescribeRepositories",
         "Resource": "*"
       }
     ]

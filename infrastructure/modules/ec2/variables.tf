@@ -53,3 +53,7 @@ variable "subnet_id" {
 variable "vpc_id" {
   description = "Id of the VPC used by the EC2 instance"
 }
+
+variable "ec2_name" {
+  description = "EC2 Name"
+}

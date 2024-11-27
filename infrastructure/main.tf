@@ -32,7 +32,23 @@ module "ec2_iam_profile" {
   project = var.project
 }
 
-module "ec2" {
+module "ec2-first" {
+  source                = "./modules/ec2"
+  region                = var.region
+  amiid                 = var.amiid
+  env                   = var.env
+  project               = var.project
+  subnet_id             = module.vpc.private_subnets[0]
+  create_machine_script = "create_machine_script.tmpl"
+  key_name              = var.ec2_key_name
+  instance_type         = var.instance_type
+  root_disk_volume_size = var.root_disk_volume_size
+  vpc_id                = module.vpc.vpc_id
+  iam_instance_profile  = module.ec2_iam_profile.ec2_profile_name
+  ec2_name = var.ec2_first_name
+}
+
+module "ec2-second" {
   source                = "./modules/ec2"
   region                = var.region
   amiid                 = var.amiid
@@ -40,11 +56,12 @@ module "ec2" {
   project               = var.project
   subnet_id             = module.vpc.public_subnets[0]
   create_machine_script = "create_machine_script.tmpl"
-  key_name              = var.key_name
+  key_name              = var.ec2_key_name
   instance_type         = var.instance_type
   root_disk_volume_size = var.root_disk_volume_size
   vpc_id                = module.vpc.vpc_id
   iam_instance_profile  = module.ec2_iam_profile.ec2_profile_name
+  ec2_name = var.ec2_second_name
 }
 
 module "ecr" {
