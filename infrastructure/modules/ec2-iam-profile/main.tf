@@ -18,13 +18,11 @@ resource "aws_iam_role" "ec2_iam_role" {
   EOF
 }
 
-# Crea un perfil de instancia vinculado al rol
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = "${local.prefix}_ec2_profile"
   role = aws_iam_role.ec2_iam_role.name
 }
 
-# Política para acceso a CloudWatch Logs y métricas
 resource "aws_iam_role_policy" "ec2_cloudwatch_policy" {
   name = "${local.prefix}_cloudwatch_access_policy"
   role = aws_iam_role.ec2_iam_role.name
@@ -52,7 +50,6 @@ resource "aws_iam_role_policy" "ec2_cloudwatch_policy" {
   EOF
 }
 
-# Política para permitir acceso a ECR
 resource "aws_iam_role_policy" "ec2_ecr_policy" {
   name = "${local.prefix}_ecr_access_policy"
   role = aws_iam_role.ec2_iam_role.name
@@ -82,7 +79,6 @@ resource "aws_iam_role_policy" "ec2_ecr_policy" {
   EOF
 }
 
-# Variables locales
 locals {
   prefix = "${var.project}_${var.env}"
 }
