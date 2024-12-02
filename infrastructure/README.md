@@ -7,12 +7,8 @@ Developed by [Xmartlabs](https://xmartlabs.com/).
 This repository contains Terraform code designed to deploy a set of infrastructure resources on AWS using modules. By combining these modules, you will be able to deploy solutions ranging from simple setups with a single EC2 instance to complex multi-service solutions utilizing ECS clusters. Some of the resources included in the repository are:
 
 - Elastic Container Service (ECS)
-- Elastic Load Balancer
 - Relational Database Service (RDS)
-- Elasticache (for memcache or redis cache)
 - Simple Storage Service (S3)
-- Elastic Compute Cloud  (EC2)
-- Virtual Private Cloud (VPC)
 
 ## Directory Structure
 
@@ -21,25 +17,14 @@ This repository contains Terraform code designed to deploy a set of infrastructu
 - `outputs.tf`: Define output values to be displayed after the Terraform execution.
 - `provider.tf`: Configure AWS provider settings.
 - `environments/`: Folder that contains the different environment configurations
-  - `example/`: Example environment configuration files.
+  - `test/`: Test environment configuration files.
     - `terraform.tfvars`: Variables for the example environment.
 - `modules/`
-  - `acm/`: ACM module.
-  - `backup/`: Backup module.
-  - `cache/`: Elasticache module.
   - `ec2/`: EC2 instance.
   - `ec2-iam-profile/`: EC2 Iam profile module. 
   - `ecr/`: Elastic Container Registry module.
-  - `ecs/`: ECS module.
-  - `ecs-services/`: ECS services module.
-  - `efs/`: Amazon Elastic File System module.
-  - `kms/`: Key Management Services module.
-  - `load-balancer/`: ECS module.
   - `rds/`: RDS module. 
-  - `s3/`: S3 module.
-  - `ssm-parameter/`: SSM Parameter module.
   - `vpc/`: VPC module.
-  - `vpn-client`: VPN client module.
 	
 ## Get Started
 
@@ -70,7 +55,7 @@ We recommend using as bucket name {account-id}-tfstate. As the S3 bucket name ha
 
 ### Providers file
 
-After creating the bucket, you need to configure the backend in the `provider.tf` file. To do that, create a backend-config file (an example is provided in the file `config/example-backend-config.properties`) with the following information:
+After creating the bucket, you need to configure the backend in the `provider.tf` file. To do that, we have a backend-config file (is provided in the file `config/backend-config.properties`) with the following information:
 
 **bucket=** Place your S3 bucket name here.
 
@@ -117,10 +102,6 @@ terraform apply -var-file="./environments/{environment}.tfvars"
 terraform destroy -var-file="./environments/{environment}.tfvars"
 ```
 
-### Updating the documentation
-
-If you want to modify or add some new modules; remember to execute the terraform format command before commit the changes to keep the configuration in the standard style
-
 ```bash
 terraform fmt
 ```
@@ -130,14 +111,6 @@ In addition to that, you need to update the documentation executing the command:
 ```bash
 terraform-docs markdown table .
 ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize this README according to your project's specific details and requirements. Good luck with your Terraform deployments!
 
 <!-- BEGIN_AUTOMATED_TF_DOCS_BLOCK -->
 ## Requirements
