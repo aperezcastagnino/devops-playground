@@ -1,6 +1,6 @@
 # Api
-To ru
-n this project:
+
+To run this project:
 
 1- Run npm install
 
