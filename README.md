@@ -2,8 +2,8 @@
 
 This is just a POC to use Terraform to deploy some infrastructure in AWS.  
 For the POC, an API and a web application were used, obtained from here: [React Exress App Medium Tutorial](https://github.com/Joao-Henrique/React_Express_App_Medium_Tutorial).
-Additionally, this repository is based on an Xmartlabs template.
 
+Additionally, this repository is based on an Xmartlabs template.
 
 This repository contains four distinct sections:
 
