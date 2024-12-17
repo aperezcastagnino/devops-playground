@@ -1,17 +1,17 @@
 resource "aws_security_group" "security_group" {
-  name   = "${var.project}-${var.env}-ec2-sg"
+  name   = "${var.project}-${var.env}-${var.ec2_name}-sg"
   vpc_id = var.vpc_id
   ingress {
-    description = "HTTPS"
-    from_port   = 443
-    to_port     = 443
+    description = "API Docker Container"
+    from_port   = 8000
+    to_port     = 8000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
+    description = "Client Docker Container"
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -30,7 +30,7 @@ resource "aws_security_group" "security_group" {
   }
 
   tags = {
-    Name        = "${var.project}-${var.env}-ec2-sg"
+    Name        = "${var.project}-${var.env}-${var.ec2_name}-sg"
     Project     = var.project
     Environment = var.env
   }
@@ -50,7 +50,7 @@ resource "aws_instance" "ec2-instance" {
   user_data = templatefile(var.create_machine_script, {})
 
   tags = {
-    Name        = "${var.project}_${var.env}-ec2"
+    Name        = "${var.project}_${var.env}-${var.ec2_name}"
     Project     = var.project
     Environment = var.env
   }
@@ -63,4 +63,3 @@ resource "aws_eip" "eip" {
   instance = aws_instance.ec2-instance.id
   domain   = "vpc"
 }
-

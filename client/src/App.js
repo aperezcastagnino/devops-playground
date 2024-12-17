@@ -9,7 +9,7 @@ class App extends Component {
     }
 
     callAPI() {
-        fetch("http://localhost:9000/testAPI")
+        fetch("http://18.216.150.183:3000/testAPI")
             .then(res => res.text())
             .then(res => this.setState({ apiResponse: res }))
             .catch(err => err);
